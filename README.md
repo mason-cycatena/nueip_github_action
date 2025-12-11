@@ -6,3 +6,5 @@ CYPRESS_COMPANY= CYPRESS_USER= CYPRESS_PASSWORD= CYPRESS_LNG= CYPRESS_LAT= CYPRE
 ```
 
 github action:
+
+<img width="358" height="661" alt="image" src="https://github.com/user-attachments/assets/93850f1e-6532-4ffb-b622-74e4d695e73b" />
