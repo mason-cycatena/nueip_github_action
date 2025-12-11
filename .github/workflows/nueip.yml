@@ -5,12 +5,12 @@ on:
     workflow_dispatch:
         inputs:
             company:
-                description: 'company number'
+                description: 'company number(統編)'
                 required: true
                 type: string
                 default: ''
             user:
-                description: 'user number(000x)'
+                description: 'user number(原編)'
                 required: true
                 type: string
                 default: '000'
@@ -24,7 +24,7 @@ on:
                 type: string
                 default: '121.51708965192844'
             lat:
-                description: 'lat 緯度(ex:25.033360508978323)'
+                description: 'lat 緯度'
                 required: true
                 type: string
                 default: '25.033360508978323'
