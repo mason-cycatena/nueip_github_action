@@ -9,7 +9,7 @@ module.exports = defineConfig({
     viewportWidth: 1280,
     viewportHeight: 720,
     // 增加超時時間以避免 429 錯誤
-    defaultCommandTimeout: 10000,
+    defaultCommandTimeout: 30000,
     requestTimeout: 10000,
     responseTimeout: 30000,
     // 減慢測試執行速度
@@ -19,7 +19,7 @@ module.exports = defineConfig({
     // JUnit XML 報告設定
     reporter: 'junit',
     reporterOptions: {
-      mochaFile: 'cypress/results/junit-[hash].xml',
+      mochaFile: 'cypress/results/junit.xml',
       toConsole: true,
     },
   },

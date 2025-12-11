@@ -1,0 +1,97 @@
+name: Nueip punch
+
+on:
+    push:
+    workflow_dispatch:
+        inputs:
+            company:
+                description: 'company number'
+                required: true
+                type: string
+                default: ''
+            user:
+                description: 'user number(000x)'
+                required: true
+                type: string
+                default: '000'
+            password:
+                description: 'password'
+                required: true
+                type: string
+            lng:
+                description: 'lng 經度'
+                required: true
+                type: string
+                default: '121.51708965192844'
+            lat:
+                description: 'lat 緯度(ex:25.033360508978323)'
+                required: true
+                type: string
+                default: '25.033360508978323'
+            inon:
+                description: '1.上班打卡 , 2.下班打卡'
+                required: true
+                type: choice
+                options:
+                  - '1'
+                  - '2'
+
+permissions:
+    contents: read
+    checks: write
+    pull-requests: write
+
+jobs:
+    cypress-run:
+        runs-on: ubuntu-latest
+        name: Run Nueip Punch Tests - ${{ inputs.inon }}
+
+        strategy:
+            fail-fast: false
+            matrix:
+                browser: [electron]
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: "20"
+                  cache: "npm"
+
+            - name: Install dependencies
+              run: npm ci
+
+            - name: Run Cypress tests
+              uses: cypress-io/github-action@v6
+              with:
+                  browser: ${{ matrix.browser }}
+                  config-file: cypress.config.js
+              env:
+                  CYPRESS_COMPANY: ${{ github.event.client_payload.company || inputs.company }}
+                  CYPRESS_USER: ${{ github.event.client_payload.user || inputs.user }}
+                  CYPRESS_PASSWORD: ${{ github.event.client_payload.password || inputs.password }}
+                  CYPRESS_LNG: ${{ github.event.client_payload.lng || inputs.lng }}
+                  CYPRESS_LAT: ${{ github.event.client_payload.lat || inputs.lat }}
+                  CYPRESS_INON: ${{ github.event.client_payload.inon || inputs.inon }}
+
+            - name: Upload test results
+              if: always()
+              uses: actions/upload-artifact@v4
+              with:
+                  name: cypress-results-${{ matrix.browser }}
+                  path: |
+                      cypress/results/
+                      cypress/screenshots/
+                      cypress/videos/
+                  retention-days: 30
+
+            - name: Upload JUnit XML
+              if: always()
+              uses: actions/upload-artifact@v4
+              with:
+                  name: junit-results-${{ matrix.browser }}
+                  path: cypress/results/*.xml
+                  retention-days: 30

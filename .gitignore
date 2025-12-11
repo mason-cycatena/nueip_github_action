@@ -1,3 +1,7 @@
-screenshots/
 node_modules/
 junit.*.xml
+cypress/results/
+cypress/screenshots/
+cypress/videos/
+*.log
+.DS_Store
