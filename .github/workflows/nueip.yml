@@ -10,7 +10,7 @@ on:
                 type: string
                 default: ''
             user:
-                description: 'user number(原編)'
+                description: 'user number(員編)'
                 required: true
                 type: string
                 default: '000'
